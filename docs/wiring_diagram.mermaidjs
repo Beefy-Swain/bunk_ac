@@ -1,0 +1,116 @@
+graph LR
+  outlet[Outlet]
+
+  subgraph Control Box
+    %% AC screw terminals %%
+    h_sc[Hot Screw Terminal]
+    n_sc[Neutral Screw Terminal]
+    g_sc[Ground Screw Terminal]
+    
+    p_a[Power Adaptor]
+  end
+
+  subgraph ESP32
+    esp_vcc
+    esp_gnd
+    esp_gpio1
+    esp_gpio2
+    esp_gpio3
+    esp_gpio4
+  end
+  
+  subgraph Relay Module
+    rm_vcc
+    rm_gnd
+    subgraph Relay 1
+      rm_in1[in]
+      rm_common1[common]
+      rm_a1[A]
+      rm_b1[B]
+    end
+    subgraph Relay 2
+      rm_in2[in]
+      rm_common2[common]
+      rm_a2[A]
+      rm_b2[B]
+    end
+    subgraph Relay 3
+      rm_in3[in]
+      rm_common3[common]
+      rm_a3[A]
+      rm_b3[B]
+    end
+    subgraph Relay 4
+      rm_in4[in]
+      rm_common4[common]
+      rm_a4[A]
+      rm_b4[B]
+    end
+    subgraph Relay 5
+      rm_in5[in]
+      rm_common5[common]
+      rm_a5[A]
+      rm_b5[B]
+    end
+    subgraph Relay 6
+      rm_in6[in]
+      rm_common6[common]
+      rm_a6[A]
+      rm_b6[B]
+    end
+    subgraph Relay 7
+      rm_in7[in]
+      rm_common7[common]
+      rm_a7[A]
+      rm_b7[B]
+    end
+    subgraph Relay 8
+      rm_in8[in]
+      rm_common8[common]
+      rm_a8[A]
+      rm_b8[B]
+    end
+  end
+
+  subgraph AC Unit
+    ac_p[Plug]
+    ac_c[Control]
+  end
+  
+  subgraph Tank
+    pump
+    agitator1
+    agitator2
+  end
+
+  %% AC %%
+  outlet --H--- h_sc
+  outlet --N--- n_sc
+  outlet --G--- g_sc
+
+  h_sc --H--- p_a
+  n_sc --N--- p_a
+
+  h_sc --H--- ac_p
+  n_sc --N--- ac_p
+  g_sc --G--- ac_p
+
+  h_sc --120VAC--- rm_common2
+  rm_b2 --120VAC--- rm_common3
+
+  ac_c --red--- rm_common1
+  ac_c --black--- rm_b1
+
+  
+
+  %% LV %%
+  p_a --5v--- esp_vcc
+  p_a --gnd--- esp_gnd
+  
+  p_a --5v--- rm_vcc
+  p_a --gnd--- rm_gnd
+
+  esp_gpio1 --5v--- rm_in1
+  esp_gpio2 --5v--- rm_in2
+  esp_gpio3 --5v--- rm_in3
+  esp_gpio4 --5v--- rm_in4
